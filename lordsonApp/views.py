@@ -1,7 +1,11 @@
 from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import action, api_view
+from django.shortcuts import render
+
 from django.http import HttpResponse
-from .models import Banner
-from .serializers import BannerSerializer
+from .models import Banner, Product
+from .serializers import BannerSerializer, ProductSerializer
 def home(request):
     return HttpResponse("<h1>✅ Lordson Backend Running Successfully</h1>")
 
@@ -9,3 +13,26 @@ def home(request):
 class BannerViewSet(viewsets.ModelViewSet):
     queryset = Banner.objects.all().order_by('-created_at')
     serializer_class = BannerSerializer
+
+
+
+
+# 👕 Product Viewset
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all().order_by('-created_at')
+    serializer_class = ProductSerializer
+
+    # 🔹 Get all T-Shirts
+    @action(detail=False, methods=['get'], url_path='tshirts')
+    def get_tshirts(self, request):
+        products = Product.objects.filter(category__iexact='tshirt').order_by('-created_at')
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
+
+    # 🔹 Get all Sweatshirts
+    @action(detail=False, methods=['get'], url_path='sweatshirts')
+    def get_sweatshirts(self, request):
+        products = Product.objects.filter(category__iexact='sweatshirt').order_by('-created_at')
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
+
