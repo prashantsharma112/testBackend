@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from django.http import HttpResponse
-from .models import Banner
-from .serializers import BannerSerializer
+from .models import Banner, Product
+from .serializers import BannerSerializer, ProductSerializer
+
 
 def home(request):
     return HttpResponse("<h1>✅ Lordson Backend Running Successfully</h1>")
@@ -16,22 +17,22 @@ class BannerViewSet(viewsets.ModelViewSet):
 
 
 
-#
-# # 👕 Product Viewset
-# class ProductViewSet(viewsets.ModelViewSet):
-#     queryset = Product.objects.prefetch_related('images').order_by('-created_at')
-#     serializer_class = ProductSerializer
-#
-#     # 🔹 Get all T-Shirts
-#     @action(detail=False, methods=['get'], url_path='tshirts')
-#     def get_tshirts(self, request):
-#         products = Product.objects.filter(category__iexact='tshirt').prefetch_related('images').order_by('-created_at')
-#         serializer = self.get_serializer(products, many=True)
-#         return Response(serializer.data)
-#
-#     # 🔹 Get all Sweatshirts
-#     @action(detail=False, methods=['get'], url_path='sweatshirts')
-#     def get_sweatshirts(self, request):
-#         products = Product.objects.filter(category__iexact='sweatshirt').prefetch_related('images').order_by('-created_at')
-#         serializer = self.get_serializer(products, many=True)
-#         return Response(serializer.data)
+
+# 👕 Product Viewset
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.prefetch_related('images').order_by('-created_at')
+    serializer_class = ProductSerializer
+
+    # 🔹 Get all T-Shirts
+    @action(detail=False, methods=['get'], url_path='tshirts')
+    def get_tshirts(self, request):
+        products = Product.objects.filter(category__iexact='tshirt').prefetch_related('images').order_by('-created_at')
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
+
+    # 🔹 Get all Sweatshirts
+    @action(detail=False, methods=['get'], url_path='sweatshirts')
+    def get_sweatshirts(self, request):
+        products = Product.objects.filter(category__iexact='sweatshirt').prefetch_related('images').order_by('-created_at')
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
