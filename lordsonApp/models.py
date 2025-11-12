@@ -14,50 +14,50 @@ class Banner(models.Model):
 
 
 
-
-
-class Product(models.Model):
-    CATEGORY_CHOICES = [
-        ('tshirt', 'T-Shirt'),
-        ('sweatshirt', 'Sweatshirt'),
-    ]
-
-    SIZE_CHOICES = [
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-        ('XL', 'Extra Large'),
-        ('XXL', '2X Large'),
-    ]
-
-    title = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    # ⬇️ Store multiple sizes as comma-separated values
-    sizes = models.JSONField(default=list, blank=True)
-    image = models.ImageField(upload_to='products/')
-    final_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        if self.discount:
-            self.final_price = self.price - (self.price * self.discount / 100)
-        else:
-            self.final_price = self.price
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-class ProductImage(models.Model):
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name='images'
-    )
-    image = models.ImageField(upload_to='products/gallery/')
-
-    def __str__(self):
-        return f"Image for {self.product.title}"
-
-
+#
+#
+# class Product(models.Model):
+#     CATEGORY_CHOICES = [
+#         ('tshirt', 'T-Shirt'),
+#         ('sweatshirt', 'Sweatshirt'),
+#     ]
+#
+#     SIZE_CHOICES = [
+#         ('S', 'Small'),
+#         ('M', 'Medium'),
+#         ('L', 'Large'),
+#         ('XL', 'Extra Large'),
+#         ('XXL', '2X Large'),
+#     ]
+#
+#     title = models.CharField(max_length=100)
+#     description = models.TextField(blank=True, null=True)
+#     price = models.DecimalField(max_digits=10, decimal_places=2)
+#     discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+#     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+#     # ⬇️ Store multiple sizes as comma-separated values
+#     sizes = models.JSONField(default=list, blank=True)
+#     image = models.ImageField(upload_to='products/')
+#     final_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#
+#     def save(self, *args, **kwargs):
+#         if self.discount:
+#             self.final_price = self.price - (self.price * self.discount / 100)
+#         else:
+#             self.final_price = self.price
+#         super().save(*args, **kwargs)
+#
+#     def __str__(self):
+#         return self.title
+#
+# class ProductImage(models.Model):
+#     product = models.ForeignKey(
+#         Product, on_delete=models.CASCADE, related_name='images'
+#     )
+#     image = models.ImageField(upload_to='products/gallery/')
+#
+#     def __str__(self):
+#         return f"Image for {self.product.title}"
+#
+#
