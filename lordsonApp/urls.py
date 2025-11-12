@@ -1,6 +1,11 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import BannerViewSet
+
+# Create a router and register your API endpoints
+router = DefaultRouter()
+router.register(r'banners', BannerViewSet, basename='banner')
 
 urlpatterns = [
-    path("", views.home, name="home"),
+    path('', include(router.urls)),
 ]
