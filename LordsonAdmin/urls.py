@@ -15,13 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from django.http import HttpResponse
+from django.views.generic import RedirectView
+
 
 def home(request):
     return HttpResponse("<h1>✅ Lordson Backend Deployed Successfully</h1>")
 
+
+
 urlpatterns = [
     path("", home),
     path("admin/", admin.site.urls),
+    # ✅ API using brand name (you can edit this)
+    path('lordson/', include('lordsonApp.urls')),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.png', permanent=True)),
+
 ]
