@@ -21,9 +21,15 @@ from django.http import HttpResponse
 def home(request):
     return HttpResponse("<h1>✅ Lordson Backend Deployed Successfully</h1>")
 
+
+def empty_favicon(request):
+    return HttpResponse(status=204)
+
 urlpatterns = [
     path("", home),
     path("admin/", admin.site.urls),
     # ✅ API using brand name (you can edit this)
     path('lordson/', include('lordsonApp.urls')),
+    path('favicon.ico', empty_favicon),  # ✅ add this line
+
 ]
