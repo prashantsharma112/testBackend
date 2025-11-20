@@ -20,19 +20,19 @@ class BannerViewSet(viewsets.ModelViewSet):
 
 # 👕 Product Viewset
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.prefetch_related('images').order_by('-created_at')
+    queryset = Product.objects.order_by('-created_at')
     serializer_class = ProductSerializer
 
     # 🔹 Get all T-Shirts
     @action(detail=False, methods=['get'], url_path='tshirts')
     def get_tshirts(self, request):
-        products = Product.objects.filter(category__iexact='tshirt').prefetch_related('images').order_by('-created_at')
+        products = Product.objects.filter(category__iexact='tshirt').order_by('-created_at')
         serializer = self.get_serializer(products, many=True)
         return Response(serializer.data)
 
     # 🔹 Get all Sweatshirts
     @action(detail=False, methods=['get'], url_path='sweatshirts')
     def get_sweatshirts(self, request):
-        products = Product.objects.filter(category__iexact='sweatshirt').prefetch_related('images').order_by('-created_at')
+        products = Product.objects.filter(category__iexact='sweatshirt').order_by('-created_at')
         serializer = self.get_serializer(products, many=True)
         return Response(serializer.data)
