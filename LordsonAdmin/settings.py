@@ -13,6 +13,8 @@ import os
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
+from imagekitio import ImageKit
+
 load_dotenv()
 
 
@@ -35,6 +37,8 @@ ALLOWED_HOSTS = [
     'localhost',        # for local testing
     '127.0.0.1'         # for local server
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 # Application definition
 
@@ -48,10 +52,13 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'lordsonApp',
     'storages',
+    "corsheaders",
+    "rest_framework",
 
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ correct position
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -134,18 +141,24 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#
+# # Default primary key field type
+# # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+# # AWS S3
+# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+#
+# AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+# AWS_QUERYSTRING_AUTH = False  # cleaner public URLs
+# AWS_DEFAULT_ACL = None        # avoids ACL issues
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-# AWS S3
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+DEFAULT_FILE_STORAGE = "LordsonAdmin.imagekit_storage.ImageKitStorage"
+MEDIA_URL = os.getenv("IMAGEKIT_URL_ENDPOINT") + '/'
 
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
 
 
