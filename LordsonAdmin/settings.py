@@ -37,6 +37,8 @@ ALLOWED_HOSTS = [
     'localhost',        # for local testing
     '127.0.0.1'         # for local server
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 # Application definition
 
@@ -50,10 +52,13 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'lordsonApp',
     'storages',
+    "corsheaders",
+    "rest_framework",
 
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ correct position
     'django.contrib.sessions.middleware.SessionMiddleware',

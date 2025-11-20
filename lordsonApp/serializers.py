@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Banner ,Product
+from .models import Banner, Product, Order
 
 
 class BannerSerializer(serializers.ModelSerializer):
@@ -39,3 +39,9 @@ class ProductSerializer(serializers.ModelSerializer):
             return obj.image.url if obj.image else None
         except Exception:
             return None
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"

@@ -61,3 +61,35 @@ class Product(models.Model):
 #         return f"Image for {self.product.title}"
 
 
+
+
+
+class Order(models.Model):
+    PAYMENT_METHODS = [
+        ("COD", "Cash on Delivery"),
+        # ("ONLINE", "Online Payment"),
+    ]
+
+    STATUS_CHOICES = [
+        ("PENDING", "Pending"),
+        ("VERIFIED", "Verified"),
+        ("REJECTED", "Rejected"),
+        ("SHIPPED", "Shipped"),
+        ("DELIVERED", "Delivered"),
+    ]
+
+    customer_name = models.CharField(max_length=200)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=20)
+    address = models.TextField()
+    city = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=10)
+    payment_method = models.CharField(max_length=10, choices=PAYMENT_METHODS, default="COD")
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    cart_data = models.JSONField()  # store cart info directly from frontend
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="PENDING")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order #{self.id} - {self.customer_name} ({self.status})"
