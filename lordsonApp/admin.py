@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 from openpyxl import Workbook
 
-from lordsonApp.models import Banner, Product, Order
+from lordsonApp.models import Banner, Product, Order, ProductImage
 
 
 @admin.register(Banner)
@@ -35,9 +35,9 @@ class ProductForm(forms.ModelForm):
         fields = '__all__'
 
 
-# class ProductImageInline(admin.TabularInline):
-#     model = ProductImage
-#     extra = 1
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -46,7 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category',)
     search_fields = ('title', 'description')
     readonly_fields = ('final_price',)
-    # inlines = [ProductImageInline]
+    inlines = [ProductImageInline]
 
 
 
